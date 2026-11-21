@@ -1,0 +1,1757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d11">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>四级冲刺</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:#0b0d11;color:#e8ecf3;
+font-family:-apple-system,"PingFang SC","Noto Sans SC",system-ui,sans-serif}
+body{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px}
+h1{font-size:17px;margin:0;font-weight:600}
+.hdr{display:flex;align-items:center;justify-content:space-between;
+padding:calc(10px + env(safe-area-inset-top)) 14px 8px;position:sticky;top:0;
+background:rgba(11,13,17,.92);backdrop-filter:blur(10px);z-index:10}
+.hdr .sub{font-size:11px;color:#8b95a7;margin-top:2px}
+.badge{font-size:12px;color:#5b8cff;background:#182238;border:1px solid #24365c;
+padding:4px 10px;border-radius:999px}
+.card{background:#141821;border:1px solid #222837;border-radius:16px;padding:16px;margin-bottom:12px}
+.cd{text-align:center;padding:22px 16px;background:linear-gradient(160deg,#15213c,#141821 60%);border-color:#233355}
+.cd .num{font-size:56px;font-weight:800;line-height:1;letter-spacing:-2px;
+background:linear-gradient(135deg,#7aa2ff,#5b8cff 40%,#34d399);
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.cd .lab{font-size:13px;color:#8b95a7;margin-top:6px}
+.cd .clock{font-size:12px;color:#5b8cff;margin-top:10px;font-variant-numeric:tabular-nums}
+.bar{height:8px;background:#1c2230;border-radius:99px;overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#34d399,#5b8cff);border-radius:99px;transition:width .3s}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sec-t{font-size:13px;color:#8b95a7;margin:18px 4px 8px;letter-spacing:.5px}
+.task{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;background:#141821;
+border:1px solid #222837;border-radius:14px;margin-bottom:8px;transition:.15s}
+.task:active{transform:scale(.99)}
+.task.done{opacity:.45}
+.task.done .tt{text-decoration:line-through;color:#8b95a7}
+.chk{flex:0 0 22px;height:22px;border-radius:7px;border:2px solid #36405a;margin-top:1px;
+display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+.task.done .chk{background:#34d399;border-color:#34d399;color:#0b0d11}
+.tt{font-size:15px;line-height:1.45;flex:1}
+.tm{font-size:11px;color:#7b8598;background:#1b2130;padding:2px 7px;border-radius:99px;white-space:nowrap;margin-top:2px}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;font-size:16px;
+font-weight:600;background:#5b8cff;color:#fff;margin-top:10px;font-family:inherit}
+.btn:active{opacity:.85}
+.btn.ghost{background:#182238;color:#9db4e6;border:1px solid #24365c}
+.btn.ok{background:#34d399;color:#08120e}
+.btn.sm{padding:10px;font-size:14px;border-radius:11px}
+.word{background:linear-gradient(165deg,#1a2540,#141821 55%);border-color:#26365c;
+min-height:290px;display:flex;flex-direction:column;justify-content:center;
+align-items:center;text-align:center;padding:28px 18px;cursor:pointer;user-select:none}
+.w{font-size:36px;font-weight:700;letter-spacing:-.5px;word-break:break-word}
+.pos{font-size:13px;color:#8b95a7;margin-top:10px}
+.mean{font-size:21px;color:#7aa2ff;margin-top:16px;font-weight:600;line-height:1.5}
+.hint{font-size:12px;color:#5d677c;margin-top:26px}
+.mk{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.mk button{padding:14px 4px;border-radius:13px;border:1px solid #2a3346;background:#171d29;
+color:#cfd7e6;font-size:14px;font-weight:600;font-family:inherit}
+.mk button:active{opacity:.8}
+.mk .k{color:#34d399;border-color:#1f4638;background:#12241d}
+.mk .u{color:#fbbf24;border-color:#4a3a17;background:#241f12}
+.mk .n{color:#f87171;border-color:#4a2226;background:#241618}
+input[type=number]{width:100%;padding:12px;border-radius:11px;border:1px solid #2a3346;
+background:#0f131b;color:#e8ecf3;font-size:17px;font-family:inherit;text-align:center}
+label.sm{font-size:12px;color:#8b95a7;display:block;margin:0 0 6px 3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.total{font-size:44px;font-weight:800;text-align:center;margin:6px 0 0;font-variant-numeric:tabular-nums}
+.total small{font-size:14px;color:#8b95a7;font-weight:500}
+.hist{font-size:13px;color:#a7b1c4;padding:11px 0;border-bottom:1px solid #1d2331;display:flex;justify-content:space-between}
+.hist:last-child{border:none}
+.plan-day{background:#141821;border:1px solid #222837;border-radius:14px;margin-bottom:8px;overflow:hidden}
+.plan-day.today{border-color:#3a5a9e;box-shadow:0 0 0 1px #2b4370}
+.ph{padding:13px 15px;display:flex;justify-content:space-between;align-items:center;font-size:14px}
+.ph b{font-weight:600}
+.ph span{font-size:12px;color:#8b95a7}
+.pb{padding:0 15px 12px;font-size:13px;color:#a7b1c4;line-height:1.9;display:none}
+.pb.show{display:block}
+.pb div{padding-left:14px;position:relative}
+.pb div:before{content:"·";position:absolute;left:2px;color:#5b8cff}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;
+background:rgba(13,16,22,.96);backdrop-filter:blur(12px);border-top:1px solid #1c2230;
+padding-bottom:env(safe-area-inset-bottom)}
+nav a{flex:1;text-align:center;padding:9px 0 10px;font-size:10px;color:#6b7689;text-decoration:none}
+nav a .ic{display:block;font-size:19px;line-height:1.3}
+nav a.on{color:#5b8cff}
+.empty{text-align:center;color:#6b7689;font-size:13px;padding:34px 10px;line-height:1.7}
+.tip{font-size:12px;color:#7b8598;line-height:1.7;margin-top:10px}
+.done-big{text-align:center;padding:26px 10px}
+.done-big .em{font-size:46px}
+.done-big h3{margin:10px 0 4px;font-size:18px}
+.spk{display:inline-block;margin-left:10px;font-size:19px;cursor:pointer;opacity:.9;vertical-align:middle}
+.spk:active{opacity:.4}
+.ex{margin-top:16px;font-size:14px;color:#9fb0c9;line-height:1.7;padding:0 6px}
+.excn{margin-top:6px;font-size:12px;color:#6f7a8d;line-height:1.6;padding:0 6px}
+.root{margin-top:14px;font-size:13px;color:#8fb0e8;line-height:1.7;padding:2px 0 2px 10px;border-left:2px solid #2b4370;text-align:left;width:100%}
+.root b{color:#b7cdf5;font-weight:600}
+.rootnote{margin-top:4px;font-size:12px;color:#6f7a8d}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1 id="ht">四级冲刺</h1><div class="sub" id="hs">距 2026-12-12 09:00 笔试</div></div>
+  <div class="badge" id="hd">D-21</div>
+</div>
+<div class="wrap"><div id="view"></div></div>
+<nav>
+  <a href="javascript:void(0)" id="t1" onclick="go('today')"><span class="ic">◎</span>今日</a>
+  <a href="javascript:void(0)" id="t2" onclick="go('words')"><span class="ic">▤</span>单词</a>
+  <a href="javascript:void(0)" id="t3" onclick="go('score')"><span class="ic">▥</span>成绩</a>
+  <a href="javascript:void(0)" id="t4" onclick="go('plan')"><span class="ic">☰</span>计划</a>
+</nav>
+
+<script id="wd" type="text/plain">abandon|v.|放弃；抛弃
+absorb|v.|吸收；使全神贯注
+abstract|adj.|抽象的
+abundant|adj.|丰富的；充裕的
+accelerate|v.|加速
+accompany|v.|陪伴；伴随
+accomplish|v.|完成；实现
+accurate|adj.|准确的
+accuse|v.|指控；指责
+acquire|v.|获得；习得
+adapt|v.|适应；改编
+adequate|adj.|足够的
+adjust|v.|调整；适应
+admire|v.|钦佩；欣赏
+adopt|v.|采用；收养
+advocate|v.|提倡；主张
+affect|v.|影响
+afford|v.|负担得起
+aggressive|adj.|好斗的；有闯劲的
+alter|v.|改变
+alternative|adj.|替代的；可供选择的
+ambition|n.|雄心；抱负
+ancient|adj.|古代的
+annual|adj.|每年的
+anxious|adj.|焦虑的；渴望的
+apparent|adj.|明显的；表面上的
+appeal|v./n.|呼吁；吸引力
+appreciate|v.|欣赏；感激
+approach|n./v.|方法；接近
+appropriate|adj.|适当的
+approve|v.|批准；赞成
+artificial|adj.|人造的；人工的
+assess|v.|评估
+assign|v.|分配；指派
+assist|v.|协助
+assume|v.|假定；承担
+attach|v.|附上；系上
+attempt|v./n.|尝试；企图
+attitude|n.|态度
+attract|v.|吸引
+authority|n.|权威；当局
+available|adj.|可获得的；有空的
+aware|adj.|意识到的
+barrier|n.|障碍；壁垒
+benefit|n./v.|益处；受益
+budget|n.|预算
+campaign|n.|运动；活动
+capable|adj.|有能力的
+capacity|n.|容量；能力
+category|n.|类别
+challenge|n./v.|挑战
+characteristic|n.|特征；特点
+circumstance|n.|环境；情况
+claim|v.|声称；索取
+classify|v.|分类
+client|n.|客户
+collapse|v.|倒塌；崩溃
+combine|v.|结合
+comment|n./v.|评论
+commit|v.|犯（错误）；承诺
+community|n.|社区；群体
+compete|v.|竞争
+complain|v.|抱怨；投诉
+complex|adj.|复杂的
+concentrate|v.|集中；专心
+conclude|v.|得出结论；结束
+conduct|v.|进行；实施
+confident|adj.|自信的
+confirm|v.|确认
+conflict|n.|冲突
+confuse|v.|使困惑；混淆
+consequence|n.|结果；后果
+consider|v.|考虑；认为
+consist|v.|由……组成
+constant|adj.|持续的；不变的
+consume|v.|消耗；消费
+contain|v.|包含
+contemporary|adj.|当代的
+contribute|v.|贡献；促成
+convince|v.|说服；使确信
+cooperate|v.|合作
+crucial|adj.|关键的；至关重要的
+currency|n.|货币
+declare|v.|宣布；声明
+decline|v./n.|下降；拒绝
+decorate|v.|装饰
+definite|adj.|明确的
+deliver|v.|递送；发表
+demand|n./v.|需求；要求
+deny|v.|否认
+depend|v.|依赖；取决于
+deposit|n./v.|存款；沉淀
+derive|v.|源于；取得
+deserve|v.|值得；应得
+determine|v.|决定；确定
+develop|v.|发展；开发
+differ|v.|不同
+digital|adj.|数字的
+diminish|v.|减少；削弱
+disappoint|v.|使失望
+disaster|n.|灾难
+distinguish|v.|区分；辨别
+distribute|v.|分配；分发
+diverse|adj.|多样的
+domestic|adj.|国内的；家庭的
+economy|n.|经济
+efficient|adj.|高效率的
+eliminate|v.|消除
+emerge|v.|出现；浮现
+emphasize|v.|强调
+enable|v.|使能够
+encounter|v.|遭遇；偶遇
+encourage|v.|鼓励
+enhance|v.|提高；增强
+enormous|adj.|巨大的
+ensure|v.|确保
+environment|n.|环境
+equip|v.|装备
+essential|adj.|必不可少的
+establish|v.|建立
+estimate|v./n.|估计
+evaluate|v.|评价；评估
+eventually|adv.|最终
+evidence|n.|证据
+exchange|n./v.|交换
+exist|v.|存在
+expand|v.|扩大；扩张
+expect|v.|期望
+expense|n.|花费；开支
+expert|n.|专家
+explore|v.|探索；探究
+expose|v.|暴露；揭露
+extend|v.|延伸；延长
+external|adj.|外部的
+facility|n.|设施；便利
+factor|n.|因素
+familiar|adj.|熟悉的
+feature|n.|特征；特色
+figure|n.|数字；人物
+finance|n.|财政；金融
+flexible|adj.|灵活的
+focus|v./n.|聚焦；重点
+forbid|v.|禁止
+formal|adj.|正式的
+fortune|n.|财富；运气
+foundation|n.|基础；基金会
+frequent|adj.|频繁的
+fundamental|adj.|基本的；根本的
+generate|v.|产生
+genuine|adj.|真诚的；真正的
+global|adj.|全球的
+gradual|adj.|逐渐的
+guarantee|v./n.|保证
+identify|v.|识别；确认
+ignore|v.|忽视
+illustrate|v.|说明；举例说明
+immediate|adj.|立即的
+impact|n.|影响；冲击
+implement|v.|实施
+impress|v.|使印象深刻
+improve|v.|改善
+independent|adj.|独立的
+indicate|v.|表明；指出
+individual|adj./n.|个人的；个体
+influence|n./v.|影响
+inform|v.|通知
+initial|adj.|最初的
+innovate|v.|创新
+insist|v.|坚持
+inspire|v.|激励；启发
+install|v.|安装
+institution|n.|机构；制度
+intend|v.|打算
+interpret|v.|解释；口译
+invest|v.|投资
+involve|v.|涉及；牵涉
+isolate|v.|隔离；孤立
+issue|n.|问题；议题
+justify|v.|证明……合理
+launch|v.|发射；推出
+legal|adj.|合法的
+locate|v.|定位；坐落于
+maintain|v.|维持；坚持认为
+major|adj.|主要的
+manage|v.|管理；设法做到
+manufacture|v.|制造
+mature|adj.|成熟的
+measure|v./n.|测量；措施
+mention|v.|提及
+merely|adv.|仅仅
+method|n.|方法
+minor|adj.|次要的；较小的
+modify|v.|修改
+monitor|v./n.|监控；显示器
+motivate|v.|激励
+negative|adj.|消极的；否定的
+neglect|v.|忽视
+negotiate|v.|谈判；协商
+notion|n.|观念；概念
+objective|n./adj.|目标；客观的
+obtain|v.|获得
+obvious|adj.|明显的
+occasion|n.|场合；时机
+occupy|v.|占据；占用
+occur|v.|发生
+opportunity|n.|机会
+oppose|v.|反对
+ordinary|adj.|普通的
+organize|v.|组织
+origin|n.|起源；出身
+overcome|v.|克服
+participate|v.|参与
+particular|adj.|特定的；特别的
+perceive|v.|察觉；认为
+perform|v.|表演；执行
+permanent|adj.|永久的
+permit|v.|允许
+persuade|v.|说服
+phenomenon|n.|现象
+policy|n.|政策
+pollute|v.|污染
+potential|adj./n.|潜在的；潜力
+practical|adj.|实用的；实际的
+precise|adj.|精确的
+predict|v.|预测
+prefer|v.|更喜欢
+prejudice|n.|偏见
+preserve|v.|保存；保护
+previous|adj.|以前的
+principle|n.|原则；原理
+priority|n.|优先级；优先事项
+private|adj.|私人的
+proceed|v.|继续进行
+profession|n.|职业
+profitable|adj.|有利可图的
+progress|n./v.|进步
+prohibit|v.|禁止
+promote|v.|促进；晋升
+propose|v.|提议；求婚
+protect|v.|保护
+prove|v.|证明
+provide|v.|提供
+purchase|v./n.|购买
+pursue|v.|追求；从事
+qualify|v.|使具备资格
+quantity|n.|数量
+range|n.|范围
+rapid|adj.|快速的
+rare|adj.|稀有的
+react|v.|反应
+realize|v.|意识到；实现
+reasonable|adj.|合理的
+recognize|v.|认出；承认
+recommend|v.|推荐
+reduce|v.|减少
+refer|v.|提到；参考
+reflect|v.|反映；反思
+refuse|v.|拒绝
+regard|v.|认为；看待
+region|n.|地区
+register|v.|登记；注册
+regret|v.|后悔
+reject|v.|拒绝
+relate|v.|关联；讲述
+release|v.|释放；发布
+reliable|adj.|可靠的
+relief|n.|缓解；宽慰
+remain|v.|保持；剩下
+remind|v.|提醒
+remove|v.|移除
+repair|v.|修理
+replace|v.|取代
+represent|v.|代表
+require|v.|要求
+research|n./v.|研究
+reserve|v.|预订；保留
+resist|v.|抵抗；抵制
+resource|n.|资源
+respond|v.|回应
+responsible|adj.|负责的
+restrict|v.|限制
+retail|n.|零售
+reveal|v.|揭示；显示
+reverse|v./adj.|反转；相反的
+review|v./n.|回顾；评论
+reward|n./v.|奖励；回报
+rural|adj.|农村的
+satisfy|v.|满足；使满意
+scarce|adj.|稀缺的
+schedule|n.|日程安排
+secure|adj./v.|安全的；获得
+seek|v.|寻求
+select|v.|选择
+sensitive|adj.|敏感的
+separate|v./adj.|分开；分开的
+severe|adj.|严重的；严厉的
+shift|v./n.|转变；轮班
+significant|adj.|重要的；显著的
+similar|adj.|相似的
+situation|n.|情况；处境
+solve|v.|解决
+source|n.|来源
+specific|adj.|具体的；特定的
+spread|v.|传播；扩散
+stable|adj.|稳定的
+standard|n.|标准
+status|n.|地位；状态
+strategy|n.|策略
+strengthen|v.|加强
+stress|n./v.|压力；强调
+strict|adj.|严格的
+struggle|v./n.|挣扎；努力
+submit|v.|提交
+substitute|v./n.|替代；替代品
+sufficient|adj.|充足的
+suggest|v.|建议；暗示
+suitable|adj.|合适的
+supply|v./n.|供应
+support|v./n.|支持
+suppose|v.|假定；猜想
+surface|n.|表面
+surround|v.|包围
+survey|n./v.|调查
+survive|v.|生存；幸存
+suspect|v.|怀疑
+sustain|v.|维持；支撑
+symbol|n.|象征；符号
+system|n.|系统；体系
+target|n.|目标
+technique|n.|技术；技巧
+tend|v.|倾向于
+tension|n.|紧张；张力
+theory|n.|理论
+threat|n.|威胁
+tolerate|v.|容忍
+tradition|n.|传统
+transfer|v.|转移；转让
+transform|v.|转变；改造
+transport|v./n.|运输
+trend|n.|趋势
+typical|adj.|典型的
+unique|adj.|独特的
+universal|adj.|普遍的；通用的
+urban|adj.|城市的
+urgent|adj.|紧急的
+utilize|v.|利用
+vague|adj.|模糊的
+valid|adj.|有效的；正当的
+various|adj.|各种各样的
+vary|v.|变化；不同
+vehicle|n.|车辆
+version|n.|版本
+victim|n.|受害者
+violent|adj.|暴力的
+virtual|adj.|虚拟的
+visible|adj.|可见的
+vital|adj.|至关重要的
+wealth|n.|财富
+welfare|n.|福利
+witness|n./v.|目击者；目睹
+worth|adj.|值得的</script>
+<script id="wdex" type="text/plain">abandon|He had to abandon his plan because of the rain.|因为下雨，他只好放弃计划。
+absorb|Plants absorb water through their roots.|植物通过根吸收水分。
+abstract|The idea is too abstract for children.|这个想法对孩子来说太抽象。
+abundant|The area has abundant water resources.|这个地区水资源丰富。
+accelerate|The car accelerated as it left the city.|汽车离城后加快了速度。
+accompany|I will accompany you to the station.|我陪你去车站。
+accomplish|She accomplished the task ahead of time.|她提前完成了任务。
+accurate|His report is accurate and well written.|他的报告准确且写得好。
+accuse|They accused him of stealing the money.|他们指控他偷了钱。
+acquire|Children acquire language by listening.|孩子靠听来习得语言。
+adapt|It took him a month to adapt to the new job.|他花了一个月适应新工作。
+adequate|We need adequate time to finish the work.|我们需要足够的时间完成工作。
+adjust|Please adjust the chair to a comfortable height.|请把椅子调到舒服的高度。
+admire|I admire her courage and honesty.|我钦佩她的勇气和诚实。
+adopt|The company adopted a new marketing strategy.|公司采用了新的营销策略。
+advocate|Many experts advocate a healthier lifestyle.|许多专家提倡更健康的生活方式。
+affect|Lack of sleep affects your memory.|睡眠不足会影响记忆力。
+afford|We cannot afford a new car this year.|今年我们买不起新车。
+aggressive|He is too aggressive in meetings.|他在会上太咄咄逼人。
+alter|Nothing will alter my decision.|什么也改变不了我的决定。
+alternative|Is there an alternative way to get there?|有别的办法到那里吗？
+ambition|Her ambition is to become a doctor.|她的志向是成为医生。
+ancient|This is an ancient Chinese custom.|这是中国的古老习俗。
+annual|The company holds an annual meeting in May.|公司每年五月开年会。
+anxious|She felt anxious before the exam.|考试前她感到焦虑。
+apparent|It soon became apparent that he was lying.|很快可以看出他在撒谎。
+appeal|The movie appeals to young people.|这部电影吸引年轻人。
+appreciate|I really appreciate your help.|非常感谢你的帮助。
+approach|We need a new approach to this problem.|这个问题我们需要新方法。
+appropriate|Wear appropriate clothes for the interview.|面试要穿合适的衣服。
+approve|The manager approved my plan.|经理批准了我的计划。
+artificial|This is artificial intelligence, not real thinking.|这是人工智能，不是真思考。
+assess|Teachers assess students' progress each term.|老师每学期评估学生的进步。
+assign|The teacher assigned us a new project.|老师给我们布置了新项目。
+assist|Two nurses assisted the doctor.|两名护士协助医生。
+assume|I assume you have read the report.|我想你已经读过报告了。
+attach|Please attach your photo to the form.|请把照片贴到表格上。
+attempt|He made several attempts to call her.|他试着给她打了好几次电话。
+attitude|Your attitude decides your result.|你的态度决定你的结果。
+attract|The museum attracts many visitors.|博物馆吸引了很多游客。
+authority|The local authorities closed the road.|当地政府封了这条路。
+available|Tickets are still available online.|票在网上还能买到。
+aware|Are you aware of the risks?|你意识到风险了吗？
+barrier|Language is often a barrier to communication.|语言常常是沟通的障碍。
+benefit|Exercise benefits both body and mind.|运动对身心都有益。
+budget|We have a tight budget this month.|这个月预算紧张。
+campaign|They started a campaign to save water.|他们发起了一场节水运动。
+capable|She is capable of doing better.|她有能力做得更好。
+capacity|The hall has a capacity of 500 people.|这个大厅能容纳500人。
+category|These books belong to one category.|这些书属于同一类。
+challenge|Learning a language is a real challenge.|学语言是真正的挑战。
+characteristic|Kindness is his best characteristic.|善良是他最大的特点。
+circumstance|Under no circumstances should you give up.|无论如何你都不该放弃。
+claim|He claims to have seen the accident.|他声称看到了那场事故。
+classify|Books are classified by subject.|书按学科分类。
+client|The lawyer met his client yesterday.|律师昨天见了他的委托人。
+collapse|The old bridge collapsed in the flood.|老桥在洪水中塌了。
+combine|We should combine work with pleasure.|我们应该工作与娱乐结合。
+comment|He refused to comment on the news.|他拒绝对这条新闻发表评论。
+commit|He committed a serious mistake.|他犯了一个严重的错误。
+community|The whole community helped the family.|整个社区都帮助了这家人。
+compete|Ten teams will compete for the prize.|十支队伍将争夺奖品。
+complain|She complained about the noise.|她抱怨噪音。
+complex|This is a complex problem.|这是个复杂的问题。
+concentrate|I can't concentrate with the TV on.|电视开着我没法集中。
+conclude|The report concludes that the plan works.|报告的结论是方案有效。
+conduct|They conducted a survey last month.|他们上个月做了调查。
+confident|She is confident about the interview.|她对面试很有信心。
+confirm|Please confirm your booking by email.|请通过邮件确认预订。
+conflict|There is a conflict between the two plans.|两个方案之间有冲突。
+confuse|Don't confuse these two words.|别把这两个词弄混。
+consequence|He knows the consequences of his choice.|他知道自己选择的后果。
+consider|We are considering moving to another city.|我们在考虑搬到另一个城市。
+consist|The team consists of six members.|这支队伍由六人组成。
+constant|She lives under constant pressure.|她一直承受着压力。
+consume|This car consumes a lot of fuel.|这车很费油。
+contain|The box contains old photos.|箱子里装着旧照片。
+contemporary|He studies contemporary Chinese art.|他研究当代中国艺术。
+contribute|Everyone can contribute to the project.|每个人都能为项目做贡献。
+convince|I finally convinced him to come.|我最终说服他来了。
+cooperate|The two companies agreed to cooperate.|两家公司同意合作。
+crucial|Sleep is crucial for your health.|睡眠对健康至关重要。
+currency|The local currency is very stable.|当地货币很稳定。
+declare|The government declared a holiday.|政府宣布放假。
+decline|Sales declined by ten percent.|销量下降了百分之十。
+decorate|They decorated the room with flowers.|他们用花装饰了房间。
+definite|We need a definite answer today.|我们今天需要一个明确的答复。
+deliver|The package will be delivered tomorrow.|包裹明天送到。
+demand|There is a growing demand for organic food.|对有机食品的需求在增长。
+deny|He denied breaking the window.|他否认打碎了窗户。
+depend|It depends on the weather.|这取决于天气。
+deposit|You need to deposit 100 yuan first.|你需要先交一百元押金。
+derive|Many English words derive from Latin.|许多英语词源自拉丁语。
+deserve|You deserve a break after this week.|这周之后你该休息一下。
+determine|Your effort determines your future.|努力决定你的未来。
+develop|The city developed fast in ten years.|这座城市十年间发展很快。
+differ|Their opinions differ on this point.|他们在这点上意见不同。
+digital|We live in a digital age.|我们生活在数字时代。
+diminish|His interest in the game diminished.|他对游戏的兴趣减弱了。
+disappoint|I don't want to disappoint my parents.|我不想让父母失望。
+disaster|The flood was a terrible disaster.|洪水是场可怕的灾难。
+distinguish|Can you distinguish these two colors?|你能分辨这两种颜色吗？
+distribute|They distributed food to the poor.|他们给穷人分发食物。
+diverse|The city has a diverse population.|这座城市人口多元。
+domestic|She handles domestic and foreign trade.|她既做内贸也做外贸。
+economy|The economy is growing slowly.|经济增长缓慢。
+efficient|This new method is more efficient.|这个新方法更高效。
+eliminate|We must eliminate waste.|我们必须消除浪费。
+emerge|A new problem has emerged.|出现了新问题。
+emphasize|The teacher emphasized the key points.|老师强调了重点。
+enable|The app enables us to work anywhere.|这个应用让我们随处办公。
+encounter|We encountered many problems on the way.|路上我们遇到很多问题。
+encourage|My teacher encouraged me to try again.|老师鼓励我再试一次。
+enhance|Reading enhances your writing skills.|阅读能提高你的写作能力。
+enormous|The building is enormous.|这栋楼非常巨大。
+ensure|Please ensure the door is locked.|请确保门锁好了。
+environment|We must protect the environment.|我们必须保护环境。
+equip|The lab is equipped with new machines.|实验室配了新机器。
+essential|Water is essential for life.|水是生命必需的。
+establish|The school was established in 1950.|这所学校创立于1950年。
+estimate|Experts estimate the cost at 2 million.|专家估计成本为两百万。
+evaluate|We need to evaluate the results.|我们需要评估结果。
+eventually|He eventually found the right job.|他最终找到了合适的工作。
+evidence|There is no evidence to support it.|没有证据支持这一点。
+exchange|We exchanged phone numbers.|我们交换了电话号码。
+exist|Such a place does not exist.|这样的地方不存在。
+expand|The company plans to expand overseas.|公司计划向海外扩张。
+expect|I expect to hear from you soon.|我期待你的消息。
+expense|Travel expenses will be paid by us.|旅费由我们承担。
+expert|He is an expert in this field.|他是这个领域的专家。
+explore|We explored the old town on foot.|我们步行探索了老城。
+expose|Children should not be exposed to violence.|孩子不应接触暴力。
+extend|They decided to extend the deadline.|他们决定延长截止日期。
+external|External pressure made him change.|外部压力让他改变了。
+facility|The hotel has good sports facilities.|这家酒店体育设施不错。
+factor|Money is not the only factor.|钱不是唯一的因素。
+familiar|I am familiar with this software.|我熟悉这个软件。
+feature|The main feature is its small size.|主要特点是体积小。
+figure|The figure shows a clear rise.|图表显示明显上升。
+finance|He works in finance.|他在金融行业工作。
+flexible|My working hours are flexible.|我的工作时间灵活。
+focus|Focus on one task at a time.|一次专注一件事。
+forbid|Smoking is forbidden here.|这里禁止吸烟。
+formal|Please write in a formal style.|请用正式文体写。
+fortune|He made a fortune in trade.|他靠贸易发了财。
+foundation|Trust is the foundation of friendship.|信任是友谊的基础。
+frequent|He is a frequent visitor here.|他是这里的常客。
+fundamental|Reading is fundamental to learning.|阅读是学习的基础。
+generate|The factory generates a lot of waste.|这家工厂产生大量废物。
+genuine|Her interest in art is genuine.|她对艺术的兴趣是真诚的。
+global|Global warming is a serious problem.|全球变暖是严重问题。
+gradual|There has been a gradual change.|变化是逐渐发生的。
+guarantee|We guarantee the quality of our goods.|我们保证商品质量。
+identify|Can you identify the man in the photo?|你能认出照片里的人吗？
+ignore|Don't ignore the warning signs.|别忽视警告信号。
+illustrate|This example illustrates the point.|这个例子说明了这一点。
+immediate|We need an immediate answer.|我们需要立即答复。
+impact|The news had a big impact on us.|这消息对我们影响很大。
+implement|The school will implement the new rule.|学校将实施新规定。
+impress|Her speech impressed everyone.|她的演讲给每个人留下印象。
+improve|Reading can improve your English.|阅读能提高你的英语。
+independent|She is financially independent.|她经济独立。
+indicate|The results indicate a clear trend.|结果表明了明显趋势。
+individual|Each individual has different needs.|每个人都有不同需求。
+influence|Parents influence their children deeply.|父母深深影响孩子。
+inform|Please inform me of any changes.|有变动请通知我。
+initial|My initial plan was too simple.|我最初的计划太简单。
+innovate|Small companies must innovate to survive.|小公司必须创新才能生存。
+insist|He insisted on paying the bill.|他坚持付账。
+inspire|Her story inspired many students.|她的故事激励了很多学生。
+install|We installed a new app.|我们装了一个新应用。
+institution|This is a famous educational institution.|这是著名的教育机构。
+intend|I intend to finish it this week.|我打算这周完成。
+interpret|How do you interpret this sentence?|你怎么理解这句话？
+invest|He invested all his money in stocks.|他把钱全投了股票。
+involve|The job involves a lot of travel.|这工作需要经常出差。
+isolate|The sick man was isolated at home.|病人被隔离在家。
+issue|This is a social issue.|这是个社会问题。
+justify|Nothing can justify such behavior.|没有任何理由能为这种行为开脱。
+launch|They will launch a new product next month.|他们下月将推出新产品。
+legal|It is legal to park here.|这里停车是合法的。
+locate|The hotel is located near the station.|酒店在车站附近。
+maintain|It is hard to maintain such a pace.|很难保持这样的节奏。
+major|This is a major change.|这是重大的变化。
+manage|She managed to finish on time.|她设法按时完成了。
+manufacture|The factory manufactures cars.|这家工厂生产汽车。
+mature|He is mature for his age.|他比同龄人成熟。
+measure|We took measures to save water.|我们采取了节水措施。
+mention|She mentioned your name.|她提到了你的名字。
+merely|I merely asked a question.|我只是问了个问题。
+method|This method works well.|这个方法很有效。
+minor|It is only a minor problem.|这只是个小问题。
+modify|We modified the plan slightly.|我们稍微修改了计划。
+monitor|The doctor monitors his heart.|医生监测他的心脏。
+motivate|Good teachers motivate students.|好老师能激励学生。
+negative|Try not to be negative.|尽量别消极。
+neglect|He neglected his health.|他忽视了自己的健康。
+negotiate|They negotiated for three hours.|他们谈了三小时。
+notion|I have no notion of what he means.|我不明白他的意思。
+objective|We must keep an objective view.|我们必须保持客观。
+obtain|You can obtain the form online.|你可以在网上获取表格。
+obvious|The answer is obvious.|答案很明显。
+occasion|This is a special occasion.|这是个特殊的场合。
+occupy|The chair occupies too much space.|这把椅子占了太多地方。
+occur|The accident occurred at night.|事故发生在夜里。
+opportunity|Don't miss this opportunity.|别错过这个机会。
+oppose|Many people oppose the new plan.|许多人反对新计划。
+ordinary|He is just an ordinary worker.|他只是个普通工人。
+organize|They organized a party for her.|他们为她组织了一个聚会。
+origin|The origin of the word is unclear.|这个词的起源不清楚。
+overcome|He overcame many difficulties.|他克服了很多困难。
+participate|All students can participate.|所有学生都可以参加。
+particular|I have a particular interest in music.|我特别喜欢音乐。
+perceive|We perceive the world through senses.|我们通过感官感知世界。
+perform|The team performed very well.|这个团队表现很好。
+permanent|He found a permanent job.|他找到了固定工作。
+permit|Smoking is not permitted here.|这里不允许吸烟。
+persuade|She persuaded me to stay.|她说服我留下来。
+phenomenon|This is a common social phenomenon.|这是常见的社会现象。
+policy|The new policy starts in May.|新政策五月开始。
+pollute|Factories pollute the river.|工厂污染了河流。
+potential|He has great potential.|他很有潜力。
+practical|This is a practical suggestion.|这是个实用的建议。
+precise|Please give a precise answer.|请给出准确的答案。
+predict|Nobody can predict the future.|没人能预测未来。
+prefer|I prefer tea to coffee.|比起咖啡我更喜欢茶。
+prejudice|We should not judge with prejudice.|我们不该带着偏见判断。
+preserve|We must preserve these old buildings.|我们必须保护这些老建筑。
+previous|I met him the previous day.|我前一天见过他。
+principle|He sticks to his principles.|他坚持自己的原则。
+priority|Safety is our top priority.|安全是我们的首要任务。
+private|This is a private matter.|这是私事。
+proceed|Let's proceed to the next question.|我们继续下一个问题。
+profession|Teaching is a noble profession.|教师是崇高的职业。
+profitable|The business became profitable last year.|生意去年开始盈利。
+progress|He has made great progress.|他进步很大。
+prohibit|Laws prohibit the sale of alcohol to minors.|法律禁止向未成年人售酒。
+promote|Exercise promotes good health.|运动促进健康。
+propose|I propose a short break.|我提议休息一下。
+protect|We must protect our eyes.|我们必须保护眼睛。
+prove|Facts prove he is right.|事实证明他是对的。
+provide|The hotel provides free breakfast.|酒店提供免费早餐。
+purchase|I purchased a new phone.|我买了一部新手机。
+pursue|She wants to pursue a career in art.|她想从事艺术事业。
+qualify|He qualified as a teacher last year.|他去年取得了教师资格。
+quantity|Quality matters more than quantity.|质量比数量重要。
+range|The price range is very wide.|价格范围很大。
+rapid|The city saw rapid growth.|这座城市增长迅速。
+rare|This bird is very rare.|这种鸟很稀有。
+react|How did she react to the news?|她对这个消息是什么反应？
+realize|I didn't realize the time.|我没意识到时间。
+reasonable|That is a reasonable price.|这是个合理的价格。
+recognize|I didn't recognize you at first.|我一开始没认出你。
+recommend|I recommend this book to you.|我把这本书推荐给你。
+reduce|We need to reduce costs.|我们需要降低成本。
+refer|The word refers to a kind of plant.|这个词指一种植物。
+reflect|His words reflect his attitude.|他的话反映了他的态度。
+refuse|He refused to answer.|他拒绝回答。
+regard|I regard him as a friend.|我把他当朋友。
+region|This region is famous for tea.|这个地区以茶闻名。
+register|You must register before Monday.|你必须在周一前注册。
+regret|I regret saying that.|我后悔说了那话。
+reject|They rejected our offer.|他们拒绝了我们的提议。
+relate|These two events are closely related.|这两件事密切相关。
+release|The film will be released in June.|这部电影六月上映。
+reliable|He is a reliable friend.|他是可靠的朋友。
+relief|It was a great relief to hear the news.|听到消息松了一大口气。
+remain|Only a few seats remain.|只剩几个座位了。
+remind|Please remind me to call her.|请提醒我给她打电话。
+remove|Please remove your shoes here.|请在这里脱鞋。
+repair|The road is being repaired.|路正在修。
+replace|We should replace the old machine.|我们应该换掉旧机器。
+represent|This painting represents peace.|这幅画代表和平。
+require|All students are required to attend.|所有学生都必须参加。
+research|His research is about climate.|他的研究是关于气候的。
+reserve|I reserved a table for two.|我订了两人桌。
+resist|I can't resist the cake.|我抵挡不住蛋糕的诱惑。
+resource|Water is a precious resource.|水是宝贵的资源。
+respond|She responded to my email quickly.|她很快回了我的邮件。
+responsible|He is responsible for the project.|他负责这个项目。
+restrict|The rules restrict our freedom.|这些规则限制了我们的自由。
+retail|She works in retail.|她从事零售业。
+reveal|The study revealed a surprising fact.|研究揭示了一个惊人的事实。
+reverse|The decision was later reversed.|这个决定后来被推翻了。
+review|Let's review what we learned.|我们复习一下学过的内容。
+reward|Hard work brings its own reward.|努力自有回报。
+rural|He grew up in a rural area.|他在农村长大。
+satisfy|The answer didn't satisfy him.|这个回答没让他满意。
+scarce|Clean water is scarce here.|这里干净的水很稀缺。
+schedule|My schedule is full this week.|这周我的日程排满了。
+secure|The building is well secured.|这栋楼很安全。
+seek|We seek a better solution.|我们在寻找更好的办法。
+select|Please select three courses.|请选三门课。
+sensitive|She is sensitive to criticism.|她对批评很敏感。
+separate|Keep your work and life separate.|把工作和生活分开。
+severe|The storm was severe.|暴风雨很严重。
+shift|There is a shift in public opinion.|公众意见发生了变化。
+significant|This is a significant improvement.|这是显著的进步。
+similar|Our ideas are similar.|我们的想法相似。
+situation|The situation is getting better.|情况在变好。
+solve|We must solve this problem first.|我们必须先解决这个问题。
+source|The source of the news is unknown.|消息来源不明。
+specific|Can you be more specific?|你能说得更具体吗？
+spread|The news spread very fast.|消息传得很快。
+stable|His condition is now stable.|他的状况现在稳定了。
+standard|The food here meets high standards.|这里的食物达标。
+status|His status in the company rose.|他在公司的地位提高了。
+strategy|We need a new strategy.|我们需要新策略。
+strengthen|Exercise strengthens the body.|运动强健身体。
+stress|Don't put too much stress on yourself.|别给自己太大压力。
+strict|My father is strict with me.|我父亲对我很严。
+struggle|He struggled to pay the bills.|他挣扎着付账单。
+submit|Please submit your paper by Friday.|请在周五前提交论文。
+substitute|You can substitute honey for sugar.|可以用蜂蜜代替糖。
+sufficient|We have sufficient time.|我们有充足的时间。
+suggest|I suggest we leave early.|我建议我们早点走。
+suitable|This film is suitable for children.|这部电影适合孩子看。
+supply|The supply of water was cut off.|供水中断了。
+support|Thank you for your support.|谢谢你的支持。
+suppose|I suppose you are right.|我想你是对的。
+surface|The surface of the lake was calm.|湖面很平静。
+surround|The school is surrounded by trees.|学校被树木环绕。
+survey|The survey shows most people agree.|调查显示多数人同意。
+survive|Only two people survived the crash.|只有两人在事故中幸存。
+suspect|I suspect he is lying.|我怀疑他在撒谎。
+sustain|The economy cannot sustain such growth.|经济无法维持这样的增长。
+symbol|The dove is a symbol of peace.|鸽子是和平的象征。
+system|The education system needs reform.|教育系统需要改革。
+target|Our target is to finish in May.|我们的目标是五月完成。
+technique|He learned a new technique.|他学了一个新技巧。
+tend|People tend to forget details.|人们往往忘记细节。
+tension|Tension between them grew.|他们之间的紧张加剧了。
+theory|This theory is widely accepted.|这个理论被广泛接受。
+threat|Pollution is a threat to health.|污染是对健康的威胁。
+tolerate|I can't tolerate this noise.|我受不了这噪音。
+tradition|It is a family tradition.|这是个家庭传统。
+transfer|He transferred to another school.|他转学到了另一所学校。
+transform|The city has been transformed.|这座城市被改变了。
+transport|Public transport is cheap here.|这里公共交通很便宜。
+trend|There is a trend towards smaller cars.|小型车成为一种趋势。
+typical|This is a typical autumn day.|这是典型的秋日。
+unique|Each person is unique.|每个人都是独特的。
+universal|Music is a universal language.|音乐是通用的语言。
+urban|Urban life is fast.|城市生活节奏快。
+urgent|This is an urgent matter.|这是紧急的事。
+utilize|We should utilize solar energy.|我们应该利用太阳能。
+vague|His answer was vague.|他的回答很模糊。
+valid|Your ticket is valid for a week.|你的票一周内有效。
+various|The shop sells various goods.|这家店卖各种商品。
+vary|Prices vary from shop to shop.|价格因店而异。
+vehicle|No vehicles are allowed here.|这里禁止车辆通行。
+version|This is the latest version.|这是最新版本。
+victim|He was the victim of a scam.|他是诈骗的受害者。
+violent|The film contains violent scenes.|这部电影有暴力场面。
+virtual|We had a virtual meeting.|我们开了个线上会议。
+visible|The mountain is visible from here.|从这里能看见那座山。
+vital|Water is vital to us all.|水对我们所有人都至关重要。
+wealth|Health is better than wealth.|健康胜过财富。
+welfare|The company cares about staff welfare.|公司关心员工福利。
+witness|She witnessed the accident.|她目睹了那场事故。
+worth|This book is worth reading.|这本书值得一读。</script>
+<script id="wroots" type="text/plain">abandon|a-(加强) + bandon(放弃)|彻底放弃
+absorb|ab-(离开) + sorb(吸)|吸走
+abstract|abs-(离开) + tract(拉)|从具体中拉出
+abundant|ab-(加强) + und(波;涌) + -ant|涌出来的
+accelerate|ac-(加强) + celer(快) + -ate|加速
+accompany|ac-(加强) + company(同伴)|陪行
+accomplish|ac-(加强) + compl(填满) + -ish|填满→完成
+accurate|ac-(加强) + cur(关心) + -ate|用心
+accuse|ac-(加强) + cuse(责;诉讼)|指控
+acquire|ac-(加强) + quir(寻求)|求得
+adapt|ad-(朝向) + apt(适合)|使适合
+adequate|ad-(朝向) + equ(相等) + -ate|相等即够
+adjust|ad-(朝向) + just(正确)|调到正确
+admire|ad-(朝向) + mir(惊奇)|对之惊奇
+adopt|ad-(朝向) + opt(选择)|选为己有
+advocate|ad-(朝向) + voc(声音) + -ate|为其发声
+affect|af-(朝向) + fect(做;产生)|作用于
+afford|af-(朝向) + ford(拿出)|拿得出
+aggressive|ag-(朝向) + gress(走) + -ive|往前冲
+alter|alter(其他)|变成别的
+alternative|alter(其他) + -native|另选一个
+ambition|amb-(周围) + it(走) + -ion|四处奔走求名
+ancient|anci(在前) + -ent|以前的
+annual|annu(年) + -al|每年的
+anxious|anx(焦虑) + -ious|焦虑的
+apparent|ap-(朝向) + par(出现) + -ent|显现出来
+appeal|ap-(朝向) + peal(驱使;叫)|呼吁
+appreciate|ap-(朝向) + preci(价值) + -ate|看出价值
+approach|ap-(朝向) + proach(靠近)|靠近
+appropriate|ap-(朝向) + propri(自己的) + -ate|适合自己
+approve|ap-(朝向) + prov(证明;好)|证明为良
+artificial|arti(技艺) + fic(做) + -ial|人用技艺做的
+assess|as-(朝向) + sess(坐)|坐在旁边定价
+assign|as-(朝向) + sign(标记)|标记给人
+assist|as-(朝向) + sist(站)|站在旁边
+assume|as-(朝向) + sum(拿)|拿来当作
+attach|at-(朝向) + tach(钉;系)|系上
+attempt|at-(朝向) + tempt(试探)|试一试
+attitude|att(适合) + -itude(状态)|姿态
+attract|at-(朝向) + tract(拉)|拉向自己
+authority|author(创始者) + -ity|创始者→权威
+available|a-(朝向) + vail(价值;可用) + -able|可用的
+aware|a-(在) + ware(小心)|留意到
+barrier|barr(栏) + -ier|拦住的东西
+benefit|bene(好) + fit(做)|做好事
+budget|budg(袋) + -et(小)|小钱袋
+campaign|camp(田野;战场) + -aign|战场行动
+capable|cap(容纳;抓) + -able|拿得住
+capacity|cap(容纳) + -acity|容量
+category|cat(向下) + egor(说;集合) + -y|归类
+challenge|chall(叫喊;指控) + -enge|叫阵
+characteristic|character(特征) + -istic|特征
+circumstance|circum-(周围) + st(站) + -ance|周边情况
+claim|claim(喊)|喊出权利
+classify|class(类) + -ify(使)|使成类
+client|cli(倾靠) + -ent|依靠的人
+collapse|col-(一起) + laps(滑落)|一起滑落
+combine|com-(一起) + bine(二)|合二为一
+comment|com-(加强) + ment(心;想)|心中所想
+commit|com-(加强) + mit(送)|送出自己
+community|com-(共同) + mun(义务;服务) + -ity|共同体
+compete|com-(共同) + pet(追求)|共同争取
+complain|com-(加强) + plain(抱怨)|抱怨
+complex|com-(一起) + plex(编织)|编在一起
+concentrate|con-(一起) + centr(中心) + -ate|聚到中心
+conclude|con-(一起) + clud(关闭)|关闭收尾
+conduct|con-(一起) + duct(引导)|引导
+confident|con-(加强) + fid(信任) + -ent|充分信任自己
+confirm|con-(加强) + firm(坚定)|使之坚定
+conflict|con-(一起) + flict(打击)|互相打
+confuse|con-(一起) + fus(倒;流)|倒在一处
+consequence|con-(一起) + sequ(跟随) + -ence|随之而来的
+consider|con-(加强) + sider(星)|观星以定
+consist|con-(一起) + sist(站)|站在一起
+constant|con-(加强) + stant(站)|一直立着
+consume|con-(加强) + sume(拿)|拿光用尽
+contain|con-(一起) + tain(握)|握在一处
+contemporary|con-(共同) + tempor(时间) + -ary|同时代
+contribute|con-(一起) + tribut(给)|共同给予
+convince|con-(加强) + vinc(征服)|彻底征服
+cooperate|co-(共同) + oper(工作) + -ate|一起做事
+crucial|cruc(十字) + -ial|十字路口般关键
+currency|curr(流;跑) + -ency|流通之物
+declare|de-(加强) + clar(清楚)|说清楚
+decline|de-(向下) + clin(倾斜)|向下倾
+decorate|decor(装饰) + -ate|装饰
+definite|de-(加强) + fin(界限) + -ite|界限分明
+deliver|de-(离开) + liver(自由)|放出来
+demand|de-(加强) + mand(命令)|下令索取
+deny|de-(加强) + ny(否定)|断然否定
+depend|de-(向下) + pend(悬挂)|悬于其下
+deposit|de-(向下) + posit(放)|放下
+derive|de-(从) + riv(河流)|从河中引出
+deserve|de-(加强) + serv(服务)|服务所得
+determine|de-(加强) + termin(界限)|划定界限
+develop|de-(去掉) + velop(包裹)|拆开包裹
+differ|dif-(分开) + fer(带)|分开带
+digital|digit(手指;数字) + -al|数字的
+diminish|di-(分开) + min(小) + -ish|变小
+disappoint|dis-(否定) + appoint(指定;履职)|未履职
+disaster|dis-(坏) + aster(星)|星象不吉
+distinguish|di-(分开) + stingu(刺;标记) + -ish|分开做记号
+distribute|dis-(分开) + tribut(给)|分给
+diverse|di-(分开) + vers(转)|转向各处
+domestic|dom(家) + -estic|家里的
+economy|eco(家) + nom(管理) + -y|管家之道
+efficient|ef-(出) + fic(做) + -ient|做出成效
+eliminate|e-(出) + limin(门槛) + -ate|赶出门
+emerge|e-(出) + merg(沉)|从沉没中浮出
+emphasize|em-(进入) + phas(说;显) + -ize|说出来
+enable|en-(使) + able(能够)|使能够
+encounter|en-(进入) + counter(相对)|迎面相对
+encourage|en-(使) + courage(勇气)|给勇气
+enhance|en-(使) + hance(高)|使变高
+enormous|e-(出) + norm(标准) + -ous|超出标准
+ensure|en-(使) + sure(确定)|使确定
+environment|environ(围绕) + -ment|周围的一切
+equip|equip(装备)|配备
+essential|ess(存在) + -ential|本质性的
+establish|e-(出) + stabl(稳固) + -ish|使稳固
+estimate|estim(价值) + -ate|估价
+evaluate|e-(出) + valu(价值) + -ate|评出价值
+eventually|event(发生) + -ually|最终
+evidence|e-(出) + vid(看) + -ence|看得见的东西
+exchange|ex-(出) + change(换)|换出去
+exist|ex-(出) + sist(站)|站出来
+expand|ex-(出) + pand(展开)|展开
+expect|ex-(出) + spect(看)|向外看
+expense|ex-(出) + pens(称量;付)|付出
+expert|ex-(出) + pert(尝试)|试出来的人
+explore|ex-(出) + plor(呼喊;搜寻)|喊出去找
+expose|ex-(出) + pos(放)|放出来
+extend|ex-(出) + tend(伸展)|伸出去
+external|extern(外部) + -al|外部的
+facility|facil(容易) + -ity|使事情容易的东西
+factor|fact(做) + -or|促成结果者
+familiar|famil(家) + -iar|像家里人
+feature|feat(做出;形状) + -ure|做成的样子
+figure|figur(形状) + -e|形状→数字/人物
+finance|fin(结清;界限) + -ance|结清账目
+flexible|flex(弯) + -ible|能弯的
+focus|focus(火炉)|聚焦之处
+forbid|for-(禁) + bid(命令)|下令禁止
+formal|form(形式) + -al|按形式的
+fortune|fort(运气;强) + -une|运气→财富
+foundation|found(底) + -ation|基础
+frequent|frequ(拥挤;常) + -ent|反复来的
+fundamental|fund(底) + -amental|根本的
+generate|gener(产生) + -ate|产生
+genuine|genu(出生) + -ine|天生的
+global|glob(球) + -al|全球的
+gradual|grad(步) + -ual|一步步的
+guarantee|guarant(保证) + -ee|担保
+identify|ident(相同) + -ify|认出是同一
+ignore|i-(不) + gnor(知道)|装作不知
+illustrate|il-(加强) + lustr(照亮) + -ate|照亮说明
+immediate|im-(不) + medi(中间) + -ate|无间隔
+impact|im-(进入) + pact(压)|压进去
+implement|im-(进入) + ple(填满) + -ment|填满落实
+impress|im-(进入) + press(压)|压入印记
+improve|im-(进入) + prov(好)|变好
+independent|in-(不) + depend(依赖) + -ent|不依赖
+indicate|in-(向) + dic(说) + -ate|指出
+individual|in-(不) + divid(分) + -ual|不可再分
+influence|in-(进入) + flu(流) + -ence|流进来
+inform|in-(进入) + form(形状;告知)|告知
+initial|init(开始) + -ial|开头的
+innovate|in-(进入) + nov(新) + -ate|引入新物
+insist|in-(加强) + sist(站)|站住不放
+inspire|in-(进入) + spir(呼吸)|吹入气息
+install|in-(进入) + stall(位置)|放入位置
+institution|in-(加强) + stitut(建立) + -ion|建立之物
+intend|in-(朝向) + tend(伸展)|伸向
+interpret|inter-(之间) + pret(说;价)|在中间转述
+invest|in-(进入) + vest(衣)|穿衣入局
+involve|in-(进入) + volv(卷)|卷入
+isolate|isol(岛) + -ate|使成孤岛
+issue|is-(出) + sue(跟随)|流出来
+justify|just(正当) + -ify|使正当
+launch|launch(投掷)|投出去
+legal|leg(法律) + -al|合法的
+locate|loc(地方) + -ate|定位于
+maintain|main(手) + tain(握)|手握不放
+major|maj(大) + -or|大的
+manage|man(手) + -age|用手料理
+manufacture|manu(手) + fact(做) + -ure|手工做成
+mature|matur(成熟) + -e|成熟的
+measure|mens(量) + -ure|量度
+mention|ment(心;想) + -ion|心中念及
+merely|mer(纯粹) + -ely|仅仅
+method|meth(追随) + -od|路径
+minor|min(小) + -or|小的
+modify|mod(尺度;方式) + -ify|改其方式
+monitor|monit(警告) + -or|警示者
+motivate|mot(动) + -ivate|使之动
+negative|neg(否定) + -ative|否定的
+neglect|neg-(不) + lect(选)|不选
+negotiate|neg-(不) + oti(闲暇) + -ate|不得闲→奔走商谈
+notion|not(知道) + -ion|所知
+objective|ob-(朝向) + ject(扔) + -ive|抛出之物→目标
+obtain|ob-(朝向) + tain(握)|握到
+obvious|ob-(朝向) + vi(路) + -ous|在路当中
+occasion|oc-(朝向) + cas(落下) + -ion|落到眼前
+occupy|oc-(加强) + cup(抓)|抓住
+occur|oc-(朝向) + cur(跑)|跑到眼前
+opportunity|op-(朝向) + port(港口) + -unity|顺风靠港之时
+oppose|op-(相反) + pos(放)|放在对面
+ordinary|ordin(次序) + -ary|按次序的
+organize|organ(器官;机构) + -ize|组建成体
+origin|ori(升起) + -gin|初升之处
+overcome|over-(越过) + come(来)|越过去
+participate|part(部分) + cip(拿) + -ate|拿一份
+particular|part(部分) + -icular|分出的一小块
+perceive|per-(完全) + ceive(抓取)|完全抓住
+perform|per-(完全) + form(形式)|完成形式
+permanent|per-(始终) + man(停留) + -ent|一直留着
+permit|per-(通过) + mit(送)|放行
+persuade|per-(彻底) + suad(劝)|劝到底
+phenomenon|phen(显现) + -omenon|显现者
+policy|poli(城邦) + -cy|治城之策
+pollute|pol(弄脏) + -lute|弄脏
+potential|potent(有力) + -ial|有力未发
+practical|pract(做) + -ical|可行的
+precise|pre-(先) + cis(切)|先切齐
+predict|pre-(先) + dict(说)|先说
+prefer|pre-(先) + fer(带)|先取
+prejudice|pre-(先) + judic(判断)|未审先断
+preserve|pre-(先) + serv(保护)|预先护住
+previous|pre-(先) + vi(路) + -ous|走在前
+principle|princ(第一) + -iple|首要之理
+priority|prior(在前) + -ity|在前之权
+private|priv(个人) + -ate|个人的
+proceed|pro-(向前) + ceed(走)|向前走
+profession|pro-(向前) + fess(说) + -ion|当众宣称的行当
+profitable|profit(利润) + -able|能生利的
+progress|pro-(向前) + gress(走)|前行
+prohibit|pro-(前) + hibit(持;阻)|挡在前
+promote|pro-(向前) + mot(动)|推向前
+propose|pro-(向前) + pos(放)|摆在前面
+protect|pro-(前) + tect(覆盖)|前面遮住
+prove|prov(证明)|证实
+provide|pro-(向前) + vid(看)|预先看到
+purchase|pur-(向前) + chase(追)|追着买下
+pursue|pur-(向前) + sue(跟随)|紧跟不舍
+qualify|qual(性质) + -ify|使具其性
+quantity|quant(多少) + -ity|数量
+range|rang(排列)|排成一片
+rapid|rap(抓;急) + -id|快
+rare|rar(稀疏) + -e|少见
+react|re-(回) + act(做)|反过来做
+realize|real(真实) + -ize|使成真
+reasonable|reason(理性) + -able|讲理的
+recognize|re-(再) + cogn(知道) + -ize|再认出来
+recommend|re-(加强) + commend(托付;称赞)|郑重推举
+reduce|re-(回) + duc(引)|引回去
+refer|re-(回) + fer(带)|带回去
+reflect|re-(回) + flect(弯)|折回来
+refuse|re-(回) + fus(倒)|倒回去
+regard|re-(加强) + gard(看守)|注目
+region|reg(统治;界) + -ion|辖域
+register|re-(回) + gist(记录) + -er|记回册上
+regret|re-(反复) + gret(哭)|反复悔叹
+reject|re-(回) + ject(扔)|扔回去
+relate|re-(回) + lat(带)|带回关联
+release|re-(回) + lease(松)|松开
+reliable|rely(依靠) + -able|可靠
+relief|re-(加强) + lief(轻;举)|举起来→轻松
+remain|re-(加强) + main(停留)|留下
+remind|re-(再) + mind(心)|再入其心
+remove|re-(离开) + mov(动)|移开
+repair|re-(再) + pair(准备)|再整备
+replace|re-(再) + place(放)|再放一个
+represent|re-(再) + present(呈现)|再呈现
+require|re-(加强) + quir(寻求)|不断求取
+research|re-(反复) + search(搜寻)|反复找
+reserve|re-(回) + serv(保存)|留着
+resist|re-(反抗) + sist(站)|站到对面
+resource|re-(再) + source(源泉)|可再取之源
+respond|re-(回) + spond(许诺)|回话
+responsible|re-(回) + spons(许诺) + -ible|能够回应的
+restrict|re-(回) + strict(拉紧)|收紧
+retail|re-(再) + tail(切)|再切小份卖出
+reveal|re-(反) + veal(帷幕)|揭开帷幕
+reverse|re-(反) + vers(转)|反转
+review|re-(再) + view(看)|再看
+reward|re-(回) + ward(看守;报)|回报
+rural|rur(乡村) + -al|乡下的
+satisfy|satis(足够) + fy(做)|做够
+scarce|scarc(稀疏) + -e|稀少
+schedule|sched(纸片;表) + -ule|小纸条→日程
+secure|se-(无) + cur(关心)|无须操心
+seek|seek(寻找)|寻找
+select|se-(分开) + lect(选)|挑出来
+sensitive|sens(感觉) + -itive|易感
+separate|se-(分开) + par(备)|分开备置
+severe|sever(严厉) + -e|严厉
+shift|shift(移动)|挪位
+significant|sign(标记) + fic(做) + -ant|做出标记的
+similar|simil(相同) + -ar|相仿
+situation|situ(位置) + -ation|所处之位
+solve|solv(松开)|解开
+source|sour(升起) + -ce|涌出之所
+specific|speci(种类) + -fic|某一种的
+spread|spread(展开)|铺开
+stable|st(站) + -able|站得住的
+standard|stand(立) + -ard|立起的标杆
+status|stat(站) + -us|所站之位置
+strategy|strateg(统帅) + -y|为帅之道
+strengthen|strength(力) + -en|使有力
+stress|stress(拉紧)|绷紧
+strict|strict(拉紧)|不放宽
+struggle|strugg(扭) + -le|挣扎
+submit|sub-(下) + mit(送)|呈上去
+substitute|sub-(代替) + stitut(立)|站在其位
+sufficient|suf-(下) + fic(做) + -ient|做到足
+suggest|sug-(下) + gest(带)|由下带上
+suitable|suit(相配) + -able|相配的
+supply|sup-(下) + ply(填满)|由下补足
+support|sup-(下) + port(扛)|从下扛住
+suppose|sup-(下) + pos(放)|放在底下作前设
+surface|sur-(上) + face(面)|上面那层
+surround|sur-(上) + round(圆)|围成一圈
+survey|sur-(上) + vey(看)|居高俯瞰
+survive|sur-(超) + viv(活)|活得比…长
+suspect|su-(下) + spect(看)|从下打量
+sustain|sus-(下) + tain(握)|自下托住
+symbol|sym-(共同) + bol(投)|合投一处
+system|sy-(共同) + stem(立)|立成一体
+target|targ(盾) + -et(小)|小盾→靶
+technique|techn(技艺) + -ique|手艺
+tend|tend(伸展)|伸向
+tension|tens(拉紧) + -ion|绷紧状态
+theory|theor(观看) + -y|观察所得
+threat|threat(压迫)|逼压
+tolerate|toler(忍受) + -ate|忍受
+tradition|tra-(越过) + dit(给) + -ion|传下来
+transfer|trans-(越过) + fer(带)|带过去
+transform|trans-(转变) + form(形)|改形
+transport|trans-(越过) + port(带)|运过去
+trend|trend(转)|走向
+typical|typ(类型) + -ical|成型的
+unique|uni(一) + -que|独一份
+universal|uni(一) + vers(转) + -al|转向一体
+urban|urb(城) + -an|城里的
+urgent|urg(催逼) + -ent|急迫的
+utilize|util(用) + -ize|加以利用
+vague|vague(游移不定)|模糊
+valid|val(强;值) + -id|站得住的
+various|vari(变化) + -ous|各样
+vary|var(变化) + -y|变动
+vehicle|veh(载) + -icle|载具
+version|vers(转) + -ion|转出的样式
+victim|vict(征服) + -im|被征服者
+violent|viol(力) + -ent|使力的
+virtual|virtu(力;德) + -al|实质上的
+visible|vis(看) + -ible|看得见
+vital|vit(生命) + -al|系于命的
+wealth|weal(福祉) + -th|富足
+welfare|wel(好) + fare(过活)|过得好
+witness|wit(知晓) + -ness|知情者
+worth|worth(价值)|值</script>
+
+<script>
+/* ================= 数据 ================= */
+var BUILD = 'c2';
+var START = new Date(2026,10,21).getTime();
+var EXAM  = new Date(2026,11,12,9,0,0).getTime();
+
+var PLAN = [
+ {d:1,date:'11/21 六',t:'起步：摸底',b:'先知道自己什么水平',
+  tasks:[['整理材料：近5年真题≥10套、答题卡、听力音频',10],
+         ['阅读1套摸底，限时40分钟，不查词',40],
+         ['圈40个生词，每词一张卡（英文/中文+原句）',60],
+         ['听力1个Section先试试水',25],
+         ['复盘：每道错题错因写一行',15],
+         ['看一遍分数结构：听力35% 阅读35% 写作15% 翻译15%',10]]},
+ {d:2,date:'11/22 日',t:'第一次全真模考',b:'基准分，别慌，低是正常的',
+  tasks:[['9:00–11:20 全真模考，不查词、不暂停、不查手机',140],
+         ['对答案，四项得分记到「成绩」页',20],
+         ['模考错词全部整理成卡片',20]]},
+ {d:3,date:'11/23 一',t:'常规训练日',b:'',
+  tasks:[['背40个新词（真题里圈的）',60],['阅读2篇，各限时18分钟',50],
+         ['听力1个Section',25],['复盘错因',15]]},
+ {d:4,date:'11/24 二',t:'常规训练日',b:'',
+  tasks:[['背40个新词',60],['阅读2篇限时',50],['听力1个Section',25],['复盘错因',15]]},
+ {d:5,date:'11/25 三',t:'常规训练日',b:'',
+  tasks:[['背40个新词',60],['阅读2篇限时',50],['听力1个Section',25],['复盘错因',15]]},
+ {d:6,date:'11/26 四',t:'常规训练日',b:'',
+  tasks:[['背40个新词',60],['阅读2篇限时',50],['听力1个Section',25],['复盘错因',15]]},
+ {d:7,date:'11/27 五',t:'第一周收官',b:'',
+  tasks:[['背40个新词',60],['阅读2篇限时',50],['听力1个Section',25],
+         ['数一下这周攒了多少张卡，顽固本单独抄一张',15]]},
+ {d:8,date:'11/28 六',t:'听力专项：短篇新闻',b:'最难啃的骨头今天啃',
+  tasks:[['复习卡片+顽固本',40],['短篇新闻精听4篇：做题→听写→对原文',70],
+         ['阅读2篇限时',50],['标记听不懂的连读/弱读',20]]},
+ {d:9,date:'11/29 日',t:'第二次全真模考',b:'和第一次比，看差在哪',
+  tasks:[['9:00–11:20 全真模考',140],['对答案记分，跟第一次对比',20],
+         ['错词整理进卡片',20]]},
+ {d:10,date:'11/30 一',t:'精听+阅读',b:'',
+  tasks:[['复习卡片',40],['听力精听1篇：逐句听写',50],
+         ['阅读2篇 + 整理同义替换',60],['写1段作文（开头或结尾）',30]]},
+ {d:11,date:'12/1 二',t:'⚠ 打印准考证',b:'9:00起可打印',
+  tasks:[['9:00 打印笔试准考证：打印2份 + 存电子版',10],
+         ['复习卡片',40],['阅读2篇限时',50],['听力1个Section',30],
+         ['背5个写作模板句',20]]},
+ {d:12,date:'12/2 三',t:'薄弱板块反打',b:'现在知道最弱的是哪块了',
+  tasks:[['复习卡片',40],['最弱板块专项训练（重点砸这里）',80],
+         ['阅读1篇 + 复盘',30],['写1段作文',30]]},
+ {d:13,date:'12/3 四',t:'阅读+写作',b:'',
+  tasks:[['复习卡片',40],['阅读2篇 + 同义替换整理',60],
+         ['听力精听1篇',50],['翻译2句',30]]},
+ {d:14,date:'12/4 五',t:'整套听力',b:'',
+  tasks:[['复习卡片',40],['听力完整一套，一次听完',50],
+         ['阅读2篇限时',60],['复盘',30]]},
+ {d:15,date:'12/5 六',t:'第三次全真模考',b:'',
+  tasks:[['9:00–11:20 全真模考',140],['记分，对比前两次看趋势',20],
+         ['错词整理',20]]},
+ {d:16,date:'12/6 日',t:'写作日',b:'背框架比背单词划算',
+  tasks:[['背3套万能框架：观点类/现象类/图表类',40],
+         ['观点类写1篇，限时30分钟',30],['现象类写1篇',30],
+         ['图表类写1篇',30],['复习卡片',30]]},
+ {d:17,date:'12/7 一',t:'翻译日',b:'只练三类题材',
+  tasks:[['背10个翻译句型（被动/定语从句/「随着…」）',30],
+         ['文化类2句',30],['节日类2句',30],['发展类2句',30],['复习卡片',30]]},
+ {d:18,date:'12/8 二',t:'第四次全真模考',b:'最后一次模考',
+  tasks:[['9:00–11:20 全真模考',140],['记分',20],['错词整理',20]]},
+ {d:19,date:'12/9 三',t:'听力错题重听',b:'',
+  tasks:[['听力错题全部重听一遍',60],['阅读2篇限时',50],
+         ['翻顽固本',30],['默写1篇作文框架',30]]},
+ {d:20,date:'12/10 四',t:'不做新题',b:'今天只翻旧账',
+  tasks:[['翻顽固本（只翻不会的）',40],['背作文模板，默写1篇',60],
+         ['看答题卡填涂规则：听力边听边涂卡',20],['翻译句型过一遍',30]]},
+ {d:21,date:'12/11 五',t:'考前准备',b:'今天早点睡',
+  tasks:[['轻量复习1小时：只翻顽固本和模板',60],
+         ['收拾：准考证2份、身份证、2B铅笔、黑笔、橡皮、耳机+备用电池、手表',20],
+         ['查考点路线，确认8:20前到场',15],['定两个闹钟，23:00前睡',10]]},
+ {d:22,date:'12/12 六',t:'🎯 考试日',b:'9:00–11:20',
+  tasks:[['8:20前到考点，进场前别看新词',10],
+         ['作文30分钟：短句为主，写满就行',30],
+         ['听力：边听边涂卡，听力结束立刻收答题卡一',25],
+         ['阅读40分钟 + 翻译30分钟，翻译不会就用简单词绕，别空着',70]]}
+];
+
+/* ================= 词库 ================= */
+var WORDS = document.getElementById('wd').textContent.trim().split('\n').map(function(l){
+  var p = l.split('|'); return {w:p[0], pos:p[1], m:p[2]};
+});
+var EX = {};
+(function(){
+  var el = document.getElementById('wdex');
+  if(!el) return;
+  el.textContent.trim().split('\n').forEach(function(l){
+    var p = l.split('|');
+    if(p.length >= 3 && p[1]) EX[p[0]] = {en:p[1], cn:p[2] || ''};
+  });
+})();
+var ROOTS = {};
+(function(){
+  var el = document.getElementById('wroots');
+  if(!el) return;
+  el.textContent.trim().split('\n').forEach(function(l){
+    var p = l.split('|');
+    if(p.length >= 2 && p[1]) ROOTS[p[0]] = {parts:p[1], note:p[2] || ''};
+  });
+})();
+
+/* ================= 存储 ================= */
+var mem = {}, hasLS = true;
+try{ localStorage.setItem('__t','1'); localStorage.removeItem('__t'); }catch(e){ hasLS = false; }
+var store = {
+  get: function(k,d){
+    try{ var v = hasLS ? localStorage.getItem(k) : mem[k];
+         return v == null ? d : JSON.parse(v); }catch(e){ return d; }
+  },
+  set: function(k,v){
+    var s = JSON.stringify(v);
+    if(hasLS){ try{ localStorage.setItem(k,s); }catch(e){ hasLS = false; mem[k]=s; } }
+    else mem[k]=s;
+  }
+};
+
+/* ================= 工具 ================= */
+function sod(t){ var d = new Date(t); d.setHours(0,0,0,0); return d.getTime(); }
+function dayNum(){ var n = Math.floor((sod(Date.now()) - START)/86400000) + 1;
+  return Math.max(1, Math.min(22, n)); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ================= 状态 ================= */
+var tab = 'today';
+var wq = null;
+var flipped = false;
+
+/* ================= 导航 ================= */
+function go(t){ tab = t; flipped = false; disarm(); todayArm = false; render(); window.scrollTo(0,0); }
+
+/* ================= 渲染 ================= */
+function render(){
+  ['t1','t2','t3','t4'].forEach(function(id,i){
+    document.getElementById(id).className = (['today','words','score','plan'][i]===tab) ? 'on' : '';
+  });
+  var dd = Math.max(0, Math.round((sod(EXAM) - sod(Date.now()))/86400000));
+  document.getElementById('hd').textContent = 'D-' + dd;
+  document.getElementById('ht').textContent = '四级冲刺';
+  document.getElementById('hs').textContent = '距 2026-12-12 09:00 笔试 · ' + BUILD;
+  var v = document.getElementById('view');
+  if(tab==='today') v.innerHTML = viewToday();
+  else if(tab==='words') v.innerHTML = viewWords();
+  else if(tab==='score') v.innerHTML = viewScore();
+  else v.innerHTML = viewPlan();
+  if(!hasLS){
+    v.innerHTML += '<div class="tip" style="color:#fbbf24">⚠ 当前打开方式无法保存数据，进度只在本次有效。用系统浏览器「打开文件」方式打开本页即可正常保存。</div>';
+  }
+  tickClock();
+}
+
+/* ---------- 今日 ---------- */
+function totalStat(){
+  var a2 = 0, t2 = 0;
+  for(var i=0;i<PLAN.length;i++){
+    var d = store.get('ck-'+(i+1), {}), p = PLAN[i];
+    for(var j=0;j<p.tasks.length;j++){ t2++; if(d[j]) a2++; }
+  }
+  return {a:a2, t:t2};
+}
+function streak(){
+  var day = dayNum(), n = 0, p = PLAN[day-1], done = store.get('ck-'+day, {});
+  var todayAll = true;
+  for(var i=0;i<p.tasks.length;i++){ if(!done[i]){ todayAll = false; break; } }
+  if(todayAll) n = 1;
+  for(var d = day-1; d >= 1; d--){
+    var pd = PLAN[d-1], dd = store.get('ck-'+d, {}), all = true;
+    for(var j=0;j<pd.tasks.length;j++){ if(!dd[j]){ all = false; break; } }
+    if(all) n++; else break;
+  }
+  return n;
+}
+var todayArm = false;
+function resetToday(){
+  if(!todayArm){ todayArm = true; disarm(); render(); return; }
+  todayArm = false;
+  var d = dayNum();
+  if(hasLS) localStorage.removeItem('ck-'+d);
+  delete mem['ck-'+d];
+  render();
+}
+function viewToday(){
+  var d = dayNum(), p = PLAN[d-1];
+  var done = store.get('ck-'+d, {});
+  var fin = 0;
+  p.tasks.forEach(function(_,i){ if(done[i]) fin++; });
+  var pct = Math.round(fin / p.tasks.length * 100);
+  var tot = totalStat();
+  var totPct = Math.round(tot.a / tot.t * 100);
+  var st = streak();
+  var total = p.tasks.reduce(function(a2,t){ return a2 + t[1]; }, 0);
+  var dd = Math.max(0, Math.round((sod(EXAM) - sod(Date.now()))/86400000));
+  var h = '';
+  h += '<div class="card cd"><div class="num">' + dd + '</div>' +
+       '<div class="lab">距离 12 月 12 日笔试还有 ' + dd + ' 天</div>' +
+       '<div class="clock" id="clk">--:--:--</div></div>';
+
+  h += '<div class="card">' +
+    '<div class="row"><b style="font-size:15px">21 天总进度</b>' +
+    '<span style="font-size:13px;color:#5b8cff">' + totPct + '%</span></div>' +
+    '<div class="bar"><i style="width:' + totPct + '%"></i></div>' +
+    '<div class="row" style="margin-top:10px;font-size:12px;color:#8b95a7">' +
+      '<span>已完成 ' + tot.a + ' / ' + tot.t + ' 项</span>' +
+      '<span>连续打卡 <b style="color:#34d399">' + st + '</b> 天</span>' +
+    '</div></div>';
+
+  h += '<div class="card">' +
+    '<div class="row"><div><b style="font-size:16px">Day ' + p.d + ' · ' + p.t + '</b>' +
+    '<div style="font-size:12px;color:#8b95a7;margin-top:3px">' + p.date + (p.b ? ' · ' + p.b : '') + '</div></div>' +
+    '<div style="font-size:13px;color:#5b8cff;font-weight:600">' + fin + '/' + p.tasks.length + '</div></div>' +
+    '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+    '<div style="font-size:12px;color:#7b8598;margin-top:8px">今日约 ' + Math.round(total/60) + ' 小时，完成 ' + pct + '%</div>' +
+    '<button class="btn ok sm" onclick="wordsFromToday()">开始背今天的词</button>' +
+    '<button class="btn ghost sm" onclick="resetToday()">' + (todayArm ? '⚠ 再点一次，清空今天所有勾选' : '今天重来（清空今天的勾选）') + '</button></div>';
+
+  h += '<div class="sec-t">今日任务</div>';
+  p.tasks.forEach(function(t,i){
+    h += '<div class="task' + (done[i] ? ' done' : '') + '" onclick="toggleTask(' + i + ')">' +
+         '<div class="chk">' + (done[i] ? '✓' : '') + '</div>' +
+         '<div class="tt">' + esc(t[0]) + '</div>' +
+         '<div class="tm">' + t[1] + '分</div></div>';
+  });
+  return h;
+}
+function toggleTask(i){
+  var d = dayNum(), k = 'ck-'+d, done = store.get(k, {});
+  if(done[i]) delete done[i]; else done[i] = 1;
+  store.set(k, done);
+  render();
+}
+function wordsFromToday(){ tab='words'; wq=null; flipped=false; render(); window.scrollTo(0,0); }
+
+/* ---------- 单词 ---------- */
+function stats(){ return store.get('wstats', {}); }
+function markedCount(){ return Object.keys(stats()).length; }
+
+var __audio = null;
+function tts(t){
+  try{
+    if(!window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(t);
+    u.lang = 'en-US';
+    u.rate = 0.9;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function speak(text, isWord, el){
+  var t = String(text || '').trim();
+  if(!t) return;
+  var mark2 = function(ch){
+    if(!el) return;
+    el.textContent = ch;
+    setTimeout(function(){ try{ el.textContent = '\uD83D\uDD0A'; }catch(e){} }, 1600);
+  };
+  if(!isWord){ tts(t); mark2('\uD83D\uDD09'); return; }
+  try{
+    if(__audio){ try{ __audio.pause(); }catch(e){} __audio.src = ''; __audio = null; }
+    var url = 'https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(t) + '&type=2';
+    __audio = new Audio();
+    __audio.preload = 'auto';
+    __audio.volume = 1;
+    __audio.src = url;
+    var p = __audio.play();
+    if(p && p.then){
+      p.then(function(){ mark2('\uD83D\uDD09'); })
+       .catch(function(){ mark2('\uD83D\uDD07'); tts(t); });
+    } else { mark2('\uD83D\uDD09'); }
+  }catch(e){ mark2('\uD83D\uDD07'); tts(t); }
+}
+
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function poolUnmarked(){
+  var s2 = stats(), pool = [];
+  for(var i=0;i<WORDS.length;i++){ if(!s2[WORDS[i].w]) pool.push(i); }
+  if(!pool.length){ for(var k=0;k<WORDS.length;k++) pool.push(k); }
+  return pool;
+}
+function startWords(){
+  disarm();
+  var q = store.get('queue', null);
+  if(q && q.pos < q.list.length){ wq = q; flipped = false; render(); window.scrollTo(0,0); return; }
+  var pool = shuffle(poolUnmarked());
+  var list = pool.slice(0, Math.min(40, pool.length));
+  q = {list:list, pos:0, mode:'new', known:0, unsure:0, unknown:0};
+  store.set('queue', q);
+  wq = q; flipped = false;
+  render(); window.scrollTo(0,0);
+}
+function reviewLearned(){
+  disarm();
+  var rq = store.get('rqueue', null);
+  if(rq && rq.pos < rq.list.length){ wq = rq; flipped = false; render(); window.scrollTo(0,0); return; }
+  var s2 = stats(), pool = [];
+  for(var i=0;i<WORDS.length;i++){ if(s2[WORDS[i].w]) pool.push(i); }
+  if(!pool.length){ reviewEmpty = true; render(); return; }
+  pool = shuffle(pool);
+  var list = pool.slice(0, Math.min(20, pool.length));
+  rq = {list:list, pos:0, mode:'review', known:0, unsure:0, unknown:0};
+  store.set('rqueue', rq);
+  wq = rq; flipped = false;
+  render(); window.scrollTo(0,0);
+}
+function reviewHard(){
+  disarm();
+  var s2 = stats(), list = [];
+  for(var i=0;i<WORDS.length;i++){ if(s2[WORDS[i].w] >= 2) list.push(i); }
+  if(!list.length){ reviewEmpty = true; render(); return; }
+  wq = {list:list, pos:0, mode:'hard', known:0, unsure:0, unknown:0};
+  store.set('rqueue', wq);
+  flipped = false;
+  render(); window.scrollTo(0,0);
+}
+var resetArm = false;
+var reviewEmpty = false;
+function disarm(){ if(resetArm) resetArm = false; if(reviewEmpty) reviewEmpty = false; }
+function resetWords(){
+  if(!resetArm){ resetArm = true; render(); return; }
+  resetArm = false;
+  ['wstats','queue','rqueue','wordIdx'].forEach(function(k){
+    if(hasLS) localStorage.removeItem(k);
+    delete mem[k];
+  });
+  wq = null; flipped = false; render();
+}
+function flip(){ flipped = !flipped; render(); }
+function mark(lv){
+  if(!wq) return;
+  var w = WORDS[wq.list[wq.pos]].w;
+  var s2 = stats(); s2[w] = lv; store.set('wstats', s2);
+  if(lv === 1) wq.known++; else if(lv === 2) wq.unsure++; else wq.unknown++;
+  wq.pos++;
+  store.set(wq.mode === 'review' || wq.mode === 'hard' ? 'rqueue' : 'queue', wq);
+  flipped = false;
+  render();
+}
+function wordCard(){
+  var w = WORDS[wq.list[wq.pos]];
+  var ex = EX[w.w];
+  var rt = ROOTS[w.w];
+  var safe = w.w.replace(/'/g, "\\'");
+  var tag = wq.mode === 'review' ? '复习' : (wq.mode === 'hard' ? '顽固本' : '新词');
+  var h = '';
+  h += '<div class="card" style="padding:8px 14px 14px">' +
+    '<div class="row" style="font-size:11px;color:#6b7689;padding:4px 0">' +
+    '<span>' + tag + '　' + (wq.pos + 1) + ' / ' + wq.list.length + '</span>' +
+    '<span>✓' + wq.known + '　~' + wq.unsure + '　✗' + wq.unknown + '</span></div>' +
+    '<div class="word" onclick="flip()">' +
+      '<div class="w">' + esc(w.w) +
+      '<span class="spk" onclick="event.stopPropagation();speak(\'' + safe + '\',1,this)">🔊</span></div>' +
+      (flipped
+        ? '<div class="pos">' + esc(w.pos) + '</div><div class="mean">' + esc(w.m) + '</div>' +
+          (rt ? '<div class="root"><b>' + esc(rt.parts) + '</b>' + (rt.note ? '<div class="rootnote">' + esc(rt.note) + '</div>' : '') + '</div>' : '') +
+          (ex ? '<div class="ex">' + esc(ex.en) + '</div><div class="excn">' + esc(ex.cn) + '</div>' : '')
+        : '<div class="hint">' + (wq.mode === 'review' ? '先回想一下它的意思，再翻开' : '轻点卡片看释义和例句') + '</div>') +
+    '</div>';
+  if(flipped){
+    if(wq.mode === 'review'){
+      h += '<div class="mk">' +
+        '<button class="k" onclick="mark(1)">记得</button>' +
+        '<button class="u" onclick="mark(2)">模糊</button>' +
+        '<button class="n" onclick="mark(3)">忘了</button></div>';
+    } else {
+      h += '<div class="mk">' +
+        '<button class="k" onclick="mark(1)">认识</button>' +
+        '<button class="u" onclick="mark(2)">模糊</button>' +
+        '<button class="n" onclick="mark(3)">不认识</button></div>';
+    }
+  } else {
+    h += '<button class="btn ghost" onclick="flip()">显示释义</button>';
+  }
+  return h + '</div>';
+}
+function viewWords(){
+  var s2 = stats();
+  var hard = Object.keys(s2).filter(function(k){ return s2[k] >= 2; });
+  var knownN = Object.keys(s2).filter(function(k){ return s2[k] === 1; }).length;
+  var marked = Object.keys(s2).length;
+  var h = '';
+
+  if(!wq){
+    var q = store.get('queue', null);
+    var rq = store.get('rqueue', null);
+    var restNew = (q && q.pos < q.list.length) ? (q.list.length - q.pos) : 0;
+    var restRev = (rq && rq.pos < rq.list.length) ? (rq.list.length - rq.pos) : 0;
+    h += '<div class="card">' +
+      '<div class="row"><b style="font-size:16px">背词进度</b>' +
+      '<span style="font-size:12px;color:#5b8cff">' + marked + ' / ' + WORDS.length + '</span></div>' +
+      '<div class="bar"><i style="width:' + Math.round(marked / WORDS.length * 100) + '%"></i></div>' +
+      '<div class="tip">「学新词」每组 40 个随机词；「复习已学」从学过里面随机抽 20 个考你，忘了的自动回顽固本。</div>' +
+      '<button class="btn ok" onclick="startWords()">' + (restNew ? '继续学新词（还剩 ' + restNew + ' 个）' : '学新词 40 个') + '</button>' +
+      '<button class="btn" style="background:#182238;color:#9db4e6;border:1px solid #24365c" onclick="reviewLearned()">' + (restRev ? '继续复习（还剩 ' + restRev + ' 个）' : '复习已学 20 个') + '</button>' +
+      '<button class="btn ghost sm" onclick="resetWords()">' + (resetArm ? '⚠ 再点一次，确认清除全部背词记录' : '从头开始刷') + '</button></div>';
+  }
+
+  if(wq && wq.pos < wq.list.length){
+    if(reviewEmpty){ h += '<div class="tip" style="color:#fbbf24">你还没学过任何词，先去背新词吧</div>'; }
+    return h + wordCard();
+  }
+
+  if(wq && wq.pos >= wq.list.length){
+    h += '<div class="card done-big"><div class="em">' + (wq.mode === 'new' ? '🎉' : '💪') + '</div>' +
+      '<h3>' + (wq.mode === 'new' ? '这一组新词背完了' : (wq.mode === 'review' ? '这轮复习做完了' : '顽固本过完了')) + '</h3>' +
+      '<div style="font-size:14px;color:#a7b1c4;margin-top:8px">' +
+      '记得/认识 ' + wq.known + ' · 模糊 ' + wq.unsure + ' · 忘了/不认识 ' + wq.unknown + '</div>' +
+      '<button class="btn ok" onclick="wq=null;render()">回到单词首页</button></div>';
+    return h;
+  }
+
+  if(reviewEmpty){ h += '<div class="tip" style="color:#fbbf24">顽固本还是空的，先背几个词吧</div>'; }
+
+  h += '<div class="card">' +
+    '<div class="row"><b>顽固本</b><span style="font-size:12px;color:#f87171">' + hard.length + ' 词</span></div>' +
+    '<div class="tip">标记「模糊」「不认识」「忘了」的词会进这里。每天睡前翻一遍，三遍还记不住就抄纸上随身带。</div>' +
+    (hard.length ? '<button class="btn ghost sm" onclick="reviewHard()">复习顽固本（' + hard.length + ' 词）</button>' : '');
+  if(hard.length){
+    h += '<div style="margin-top:10px">';
+    hard.forEach(function(k){
+      var f = null;
+      for(var i=0;i<WORDS.length;i++){ if(WORDS[i].w === k){ f = WORDS[i]; break; } }
+      h += '<div class="hist"><span><b>' + esc(k) + '</b> ' + esc(f ? f.m : '') +
+        '</span><span style="color:#8b95a7">' + (s2[k] === 3 ? '不认识' : '模糊') + '</span></div>';
+    });
+    h += '</div>';
+  } else { h += '<div class="empty">还没有顽固词，开始背词就有了</div>'; }
+  h += '</div>';
+  h += '<div class="card"><div class="row"><b>已掌握</b>' +
+    '<span style="font-size:12px;color:#34d399">' + knownN + ' 词</span></div></div>';
+  return h;
+}
+
+/* ---------- 成绩 ---------- */
+function viewScore(){
+  var mocks = store.get('mocks', []);
+  var h = '';
+  var last = mocks.length ? mocks[mocks.length-1] : null;
+  h += '<div class="card">'+
+    '<div style="text-align:center;font-size:12px;color:#8b95a7">最近一次估算总分</div>'+
+    '<div class="total">'+(last? (last.L+last.R+last.W+last.T) : '--')+'<small> / 710</small></div>'+
+    '<div class="tip" style="text-align:center">425 分过线。听力+阅读占 70%，这两项加起来不到 300 很危险。</div>'+
+  '</div>';
+  h += '<div class="card"><b style="font-size:15px">录入一次模考成绩</b>'+
+    '<div class="tip" style="margin-bottom:12px">按官方换算后的分数填（听力/阅读满分各 249，写作/翻译各 106）。不知道就按比例估。</div>'+
+    '<div class="grid2">'+
+      '<div><label class="sm">听力 /249</label><input type="number" id="sL" placeholder="0" inputmode="numeric"></div>'+
+      '<div><label class="sm">阅读 /249</label><input type="number" id="sR" placeholder="0" inputmode="numeric"></div>'+
+      '<div><label class="sm">写作 /106</label><input type="number" id="sW" placeholder="0" inputmode="numeric"></div>'+
+      '<div><label class="sm">翻译 /106</label><input type="number" id="sT" placeholder="0" inputmode="numeric"></div>'+
+    '</div>'+
+    '<button class="btn" onclick="saveMock()">保存这次成绩</button></div>';
+  if(mocks.length){
+    h += '<div class="card"><div class="row"><b>历史记录</b>'+
+      '<span style="font-size:12px;color:#8b95a7">'+mocks.length+' 次</span></div>';
+    mocks.forEach(function(m,i){
+      var tot = m.L+m.R+m.W+m.T;
+      var col = tot>=425 ? '#34d399' : (tot>=380?'#fbbf24':'#f87171');
+      h += '<div class="hist"><span>第'+(i+1)+'次（'+m.date+'）</span>'+
+        '<span>听'+m.L+' 读'+m.R+' 写'+m.W+' 译'+m.T+'　'+
+        '<b style="color:'+col+'">'+tot+'</b></span></div>';
+    });
+    h += '<button class="btn ghost sm" onclick="delMock()">删除最后一条</button></div>';
+  }
+  return h;
+}
+function saveMock(){
+  var g = function(id){ return Math.max(0, parseInt(document.getElementById(id).value||'0',10)||0); };
+  var m = {date:(new Date().getMonth()+1)+'/'+new Date().getDate(),
+           L:g('sL'), R:g('sR'), W:g('sW'), T:g('sT')};
+  if(!m.L && !m.R && !m.W && !m.T){ alert('先填至少一项分数'); return; }
+  var arr = store.get('mocks', []); arr.push(m); store.set('mocks', arr);
+  render(); window.scrollTo(0,0);
+}
+function delMock(){ var a = store.get('mocks', []); a.pop(); store.set('mocks', a); render(); }
+
+/* ---------- 计划 ---------- */
+function viewPlan(){
+  var d = dayNum(), h = '';
+  h += '<div class="sec-t">21 天全程（点击展开任务）</div>';
+  PLAN.forEach(function(p){
+    var open = p.d === d;
+    h += '<div class="plan-day'+(p.d===d?' today':'')+'">'+
+      '<div class="ph" onclick="this.nextElementSibling.classList.toggle(\'show\')">'+
+      '<span><b>Day '+p.d+'</b>　'+p.date+' · '+esc(p.t)+'</span>'+
+      '<span>'+(p.d===d?'今天':p.tasks.length+' 项')+'</span></div>'+
+      '<div class="pb'+(open?' show':'')+'">'+
+      p.tasks.map(function(t){ return '<div>'+esc(t[0])+'　<span style="color:#6b7689">'+t[1]+'分</span></div>'; }).join('')+
+      '</div></div>';
+  });
+  h += '<div class="card" style="margin-top:14px"><b style="font-size:15px">三条铁律</b>'+
+    '<div class="tip">1. 不换材料：全程只用真题，不买模拟题、不换单词书。<br>'+
+    '2. 单词只认不写：除了写作那 100 个替换词，其它词看到能认就行。<br>'+
+    '3. 每天必须动笔：听力和阅读都要限时做，手感比知识重要。</div></div>';
+  h += '<div class="card" style="margin-top:14px"><b style="font-size:15px">数据备份</b>'+
+    '<div class="tip">换浏览器或换手机时，用这里把进度搬过去。导出后长按文本框全选复制。</div>'+
+    '<textarea id="bak" style="width:100%;height:86px;margin-top:10px;background:#0f131b;color:#a7b1c4;border:1px solid #2a3346;border-radius:10px;padding:10px;font-size:11px;font-family:monospace;resize:none"></textarea>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">'+
+    '<button class="btn ghost sm" style="margin:0" onclick="exportData()">导出到上面</button>'+
+    '<button class="btn ghost sm" style="margin:0" onclick="importData()">从上面导入</button></div></div>';
+  h += '<button class="btn ghost" onclick="resetAll()">清空所有记录</button>';
+  return h;
+}
+function resetAll(){
+  if(!confirm('确定清空全部打卡、单词和成绩记录？此操作不可撤销。')) return;
+  ['wstats','wordIdx','mocks','queue'].forEach(function(k){
+    if(hasLS) localStorage.removeItem(k); delete mem[k];
+  });
+  for(var i=1;i<=22;i++){ if(hasLS) localStorage.removeItem('ck-'+i); delete mem['ck-'+i]; }
+  wq = null; render();
+}
+
+/* ---------- 数据备份 ---------- */
+function exportData(){
+  var d = {wstats:store.get('wstats',{}), wordIdx:store.get('wordIdx',0),
+           mocks:store.get('mocks',[]), ck:{}};
+  for(var i=1;i<=22;i++){ var v = store.get('ck-'+i, null); if(v) d.ck[i] = v; }
+  var s = JSON.stringify(d);
+  var el = document.getElementById('bak');
+  el.value = s;
+  try{ navigator.clipboard.writeText(s); }catch(e){}
+  el.focus(); el.select();
+  alert('已导出' + (hasLS ? '' : '（注意：当前存储不可用，导出内容仅本次有效）'));
+}
+function importData(){
+  var el = document.getElementById('bak');
+  var s = el.value.trim();
+  if(!s){ alert('先把备份内容粘贴到上面的框里'); return; }
+  var d;
+  try{ d = JSON.parse(s); }catch(e){ alert('格式不对，请完整复制整段文本'); return; }
+  if(!confirm('导入会覆盖当前所有记录，确定吗？')) return;
+  if(d.wstats) store.set('wstats', d.wstats);
+  if(typeof d.wordIdx === 'number') store.set('wordIdx', d.wordIdx);
+  if(d.mocks) store.set('mocks', d.mocks);
+  if(d.ck){ for(var k in d.ck){ store.set('ck-'+k, d.ck[k]); } }
+  wq = null;
+  alert('导入完成');
+  render();
+}
+
+/* ---------- 倒计时 ---------- */
+function pad(n){ return n<10?'0'+n:''+n; }
+function tickClock(){
+  var el = document.getElementById('clk');
+  if(!el) return;
+  var ms = EXAM - Date.now();
+  if(ms < 0) ms = 0;
+  var s = Math.floor(ms/1000);
+  var D = Math.floor(s/86400), H = Math.floor(s%86400/3600),
+      M = Math.floor(s%3600/60), S = s%60;
+  el.textContent = D+' 天 '+pad(H)+':'+pad(M)+':'+pad(S);
+}
+
+render();
+setInterval(function(){ if(tab==='today') tickClock(); }, 1000);
+</script>
+</body>
+</html>
