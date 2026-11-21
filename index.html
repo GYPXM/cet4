@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0d11">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>四级冲刺</title>
 <style>
@@ -1196,7 +1199,7 @@ worth|worth(价值)|值</script>
 
 <script>
 /* ================= 数据 ================= */
-var BUILD = 'c3';
+var BUILD = 'c4';
 var START = new Date(2026,10,21).getTime();
 var EXAM  = new Date(2026,11,12,9,0,0).getTime();
 
@@ -1695,8 +1698,14 @@ function viewPlan(){
     '<div class="tip">换浏览器或换手机时，用这里把进度搬过去。导出后长按文本框全选复制。</div>'+
     '<textarea id="bak" style="width:100%;height:86px;margin-top:10px;background:#0f131b;color:#a7b1c4;border:1px solid #2a3346;border-radius:10px;padding:10px;font-size:11px;font-family:monospace;resize:none"></textarea>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">'+
+    '<button class="btn ghost sm" style="margin:0;grid-column:1/-1" onclick="uploadLocal()">发送到本机（仅本地预览）</button>'+
     '<button class="btn ghost sm" style="margin:0" onclick="exportData()">导出到上面</button>'+
     '<button class="btn ghost sm" style="margin:0" onclick="importData()">从上面导入</button></div></div>';
+  if(dumpChunks){
+    h += '<div class="card" style="font-size:12px;font-family:monospace;word-break:break-all;line-height:1.7">';
+    dumpChunks.forEach(function(c){ h += '<div>' + esc(c) + '</div>'; });
+    h += '</div>';
+  }
   h += '<button class="btn ghost" onclick="resetAll()">清空所有记录</button>';
   return h;
 }
@@ -1717,9 +1726,11 @@ function exportData(){
   var s = JSON.stringify(d);
   var el = document.getElementById('bak');
   el.value = s;
-  try{ navigator.clipboard.writeText(s); }catch(e){}
   el.focus(); el.select();
-  alert('已导出' + (hasLS ? '' : '（注意：当前存储不可用，导出内容仅本次有效）'));
+  var copied = false;
+  try{ copied = document.execCommand('copy'); }catch(e){}
+  if(!copied){ try{ navigator.clipboard.writeText(s); copied = true; }catch(e){} }
+  alert(copied ? '已导出并复制到剪贴板' : '已导出' + (hasLS ? '' : '（当前存储不可用）'));
 }
 function importData(){
   var el = document.getElementById('bak');
@@ -1750,6 +1761,17 @@ function tickClock(){
   el.textContent = D+' 天 '+pad(H)+':'+pad(M)+':'+pad(S);
 }
 
+var dumpChunks = null;
+function uploadLocal(){
+  var d = {wstats:store.get('wstats',{}), mocks:store.get('mocks',[]), ck:{}};
+  for(var i=1;i<=22;i++){ var v = store.get('ck-'+i, null); if(v) d.ck[i]=v; }
+  var str = JSON.stringify(d);
+  try{ fetch('http://127.0.0.1:8899/save?d=' + encodeURIComponent(str)).catch(function(){}); }catch(e){}
+  dumpChunks = [];
+  for(var j=0;j<str.length;j+=60) dumpChunks.push(str.substr(j,60));
+  render();
+  window.scrollTo(0, document.body.scrollHeight);
+}
 function importPayload(d, merge){
   if(!d) return 0;
   var n = 0;
@@ -1787,6 +1809,11 @@ var hashImported = false;
 
 render();
 setInterval(function(){ if(tab==='today') tickClock(); }, 1000);
+if('serviceWorker' in navigator && location.protocol === 'https:'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
 setTimeout(function(){ try{ applyHashImport(); if(hashImported) render(); }catch(e){} }, 30);
 </script>
 </body>
