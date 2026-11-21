@@ -1196,7 +1196,7 @@ worth|worth(价值)|值</script>
 
 <script>
 /* ================= 数据 ================= */
-var BUILD = 'c2';
+var BUILD = 'c3';
 var START = new Date(2026,10,21).getTime();
 var EXAM  = new Date(2026,11,12,9,0,0).getTime();
 
@@ -1750,8 +1750,44 @@ function tickClock(){
   el.textContent = D+' 天 '+pad(H)+':'+pad(M)+':'+pad(S);
 }
 
+function importPayload(d, merge){
+  if(!d) return 0;
+  var n = 0;
+  if(d.wstats){
+    var cur = stats(), k;
+    for(k in d.wstats){
+      if(!merge || !cur[k] || d.wstats[k] < cur[k]){ cur[k] = d.wstats[k]; n++; }
+    }
+    store.set('wstats', cur);
+  }
+  if(d.ck){
+    for(var dk in d.ck){
+      var cur2 = store.get('ck-' + dk, {});
+      for(var i in d.ck[dk]){ if(d.ck[dk][i]){ cur2[i] = 1; n++; } }
+      store.set('ck-' + dk, cur2);
+    }
+  }
+  if(d.mocks && d.mocks.length){
+    var cur3 = store.get('mocks', []);
+    for(var j=0;j<d.mocks.length;j++){ cur3.push(d.mocks[j]); n++; }
+    store.set('mocks', cur3);
+  }
+  return n;
+}
+function applyHashImport(){
+  var m = location.hash.match(/^#imp=(.+)$/);
+  if(!m) return;
+  var d = null;
+  try{ d = JSON.parse(decodeURIComponent(m[1])); }catch(e){ return; }
+  importPayload(d, true);
+  try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+  hashImported = true;
+}
+var hashImported = false;
+
 render();
 setInterval(function(){ if(tab==='today') tickClock(); }, 1000);
+setTimeout(function(){ try{ applyHashImport(); if(hashImported) render(); }catch(e){} }, 30);
 </script>
 </body>
 </html>
